@@ -3,20 +3,27 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
+#include <threads.h>
+
+static thread_local int* n_auts_g = NULL;
+static thread_local int*** auts_g = NULL;
+
+void store_auts(int count, int* perm, int* orbits, int numorbits, int stabvertex, int n)
+{
+	*n_auts_g = *n_auts_g + 1;
+	*auts_g = realloc(*auts_g,(*n_auts_g)*(sizeof (int*)));
+	(*auts_g)[*n_auts_g-1] = malloc(n*sizeof(int));	
+	memcpy((*auts_g)[*n_auts_g-1],perm,n*sizeof(int));
+}
 
 void canonize(int _nv, size_t _nde, size_t* _v, int* _d, int* _e, int* lab, int* ptn, int* n_auts, int*** auts)
 {
-	*n_auts = 0;	
-	
-	*auts = NULL;
 
-	void store_auts(int count, int* perm, int* orbits, int numorbits, int stabvertex, int n)
-	{
-		*n_auts = *n_auts + 1;
-		*auts = realloc(*auts,(*n_auts)*(sizeof (int*)));
-		(*auts)[*n_auts-1] = malloc(n*sizeof(int));	
-		memcpy((*auts)[*n_auts-1],perm,n*sizeof(int));
-	}
+	n_auts_g = n_auts;
+	*n_auts_g = 0;
+	
+	auts_g = auts;
+	*auts_g = NULL;
 
     DYNALLSTAT(int,orbits,orbits_sz);
     static DEFAULTOPTIONS_SPARSEGRAPH(options);

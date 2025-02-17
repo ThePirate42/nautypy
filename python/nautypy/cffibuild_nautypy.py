@@ -2,8 +2,8 @@ import path
 from cffi import FFI
 ffibuilder = FFI()
 
-lib_path = path.Path("../../build/src").abspath()
-include_path = path.Path("../../include").abspath()
+lib_path = path.Path("../../build/src").absolute()
+include_path = path.Path("../../include").absolute()
 
 
 ffibuilder.set_source(

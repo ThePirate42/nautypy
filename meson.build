@@ -12,7 +12,7 @@ suffix = 'nautypy'
 build_includedir = include_directories('include')
 
 #-----Specify dependencies-----#
-nauty_dep = dependency('nauty')
+nauty_dep = dependency('libnauty')
 
 #-----Execute subdirectory builds-----#
 #Install headers
